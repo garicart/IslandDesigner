@@ -11,66 +11,121 @@ export function openLogCabin(): void {
   overlay.style.position = 'fixed';
   overlay.style.left = '0';
   overlay.style.top = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.45)';
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.backgroundColor = '#FAF7F2';
   overlay.style.zIndex = '10000';
-
-  const windowBox = document.createElement('div');
-
-  windowBox.style.width = 'min(500px, 90vw)';
-  windowBox.style.maxHeight = '80vh';
-  windowBox.style.backgroundColor = '#FAF7F2';
-  windowBox.style.borderRadius = '18px';
-  windowBox.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.25)';
-  windowBox.style.overflow = 'hidden';
-  windowBox.style.fontFamily = 'Noto Sans TC, sans-serif';
-
-  const header = document.createElement('div');
-
-  header.style.backgroundColor = '#2C5F4B';
-  header.style.color = '#FAF7F2';
-  header.style.padding = '18px 20px';
-  header.style.fontSize = '22px';
-  header.style.fontWeight = 'bold';
-
-  header.textContent = '紀錄小屋';
-
-  const content = document.createElement('div');
-
-  content.style.padding = '24px';
-  content.style.color = '#333';
-  content.style.fontSize = '16px';
-  content.style.lineHeight = '1.7';
+  overlay.style.overflow = 'hidden';
 
   const title = document.createElement('div');
 
-  title.style.fontSize = '20px';
-  title.style.fontWeight = 'bold';
-  title.style.marginBottom = '12px';
-
   title.textContent = '紀錄小屋';
+
+  title.style.position = 'absolute';
+  title.style.left = '50%';
+  title.style.top = '20px';
+  title.style.transform = 'translateX(-50%)';
+  title.style.fontSize = '24px';
+  title.style.fontWeight = 'bold';
+  title.style.color = '#2C5F4B';
+  title.style.fontFamily = 'Noto Sans TC, sans-serif';
+
+  /*
+   * 左上角圓形 SVG 按鈕
+   */
+  const button = document.createElement('button');
+
+  button.type = 'button';
+
+  button.style.position = 'absolute';
+  button.style.left = '45px';
+  button.style.top = '20px';
+  button.style.width = '44px';
+  button.style.height = '44px';
+  button.style.padding = '0';
+  button.style.margin = '0';
+  button.style.border = '0';
+  button.style.background = 'transparent';
+  button.style.cursor = 'pointer';
+
+  button.innerHTML = `
+    <svg
+      width="44"
+      height="44"
+      viewBox="0 0 44 44"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="22"
+        cy="22"
+        r="20"
+        fill="#2C5F4B"
+      />
+
+      <path
+        d="M14 22
+           L19 27
+           L30 16"
+        fill="none"
+        stroke="#FAF7F2"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  `;
+
+  /*
+   * Log Cabin 內容
+   */
+  const content = document.createElement('div');
+
+  content.style.position = 'absolute';
+  content.style.left = '50%';
+  content.style.top = '100px';
+  content.style.transform = 'translateX(-50%)';
+  content.style.width = 'min(600px, 85vw)';
+  content.style.color = '#2C5F4B';
+  content.style.fontFamily = 'Noto Sans TC, sans-serif';
+  content.style.textAlign = 'center';
 
   const description = document.createElement('div');
 
-  description.textContent =
-    '這裡可以用來保存狸端機入口站的紀錄。';
+  description.textContent = '這裡可以保存狸端機入口站的紀錄。';
 
+  description.style.fontSize = '18px';
+  description.style.lineHeight = '1.7';
+
+  /*
+   * 按下左上角按鈕
+   */
+  button.addEventListener('click', () => {
+    description.textContent = '已進入紀錄小屋。';
+  });
+
+  overlay.appendChild(button);
+  overlay.appendChild(title);
+
+  content.appendChild(description);
+  overlay.appendChild(content);
+
+  /*
+   * 加入關閉按鈕
+   */
   const closeButton = document.createElement('button');
 
   closeButton.type = 'button';
   closeButton.textContent = '關閉';
 
-  closeButton.style.marginTop = '24px';
-  closeButton.style.width = '100%';
-  closeButton.style.padding = '12px';
-  closeButton.style.border = '0';
+  closeButton.style.position = 'absolute';
+  closeButton.style.left = '50%';
+  closeButton.style.bottom = '30px';
+  closeButton.style.transform = 'translateX(-50%)';
+  closeButton.style.padding = '10px 28px';
+  closeButton.style.border = '2px solid #2C5F4B';
   closeButton.style.borderRadius = '10px';
-  closeButton.style.backgroundColor = '#2C5F4B';
-  closeButton.style.color = '#FAF7F2';
+  closeButton.style.backgroundColor = '#F5F0E8';
+  closeButton.style.color = '#2C5F4B';
   closeButton.style.fontSize = '16px';
   closeButton.style.cursor = 'pointer';
 
@@ -78,20 +133,7 @@ export function openLogCabin(): void {
     overlay.remove();
   });
 
-  content.appendChild(title);
-  content.appendChild(description);
-  content.appendChild(closeButton);
-
-  windowBox.appendChild(header);
-  windowBox.appendChild(content);
-
-  overlay.appendChild(windowBox);
-
-  overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) {
-      overlay.remove();
-    }
-  });
+  overlay.appendChild(closeButton);
 
   document.body.appendChild(overlay);
 }
