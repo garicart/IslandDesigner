@@ -37,7 +37,7 @@ export function openLogCabin(): void {
   header.style.fontSize = '22px';
   header.style.fontWeight = 'bold';
 
-  header.textContent = 'Log Cabin';
+  header.textContent = '紀錄小屋';
 
   const content = document.createElement('div');
 
